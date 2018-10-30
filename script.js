@@ -8,7 +8,7 @@ function breedSubmitted() {
         event.preventDefault();
         clearValues();
         submittedBreed();
-        // prevent values other than 1-50
+        // prevent empty submission
         if (breedSelected == "") {
             alert("Please select a breed.");
             return;
@@ -17,18 +17,13 @@ function breedSubmitted() {
     });
 }
 
-// captures number submitted, or defaults to 3 if nothing submitted.
+// captures breed submitted.
 function submittedBreed() {
     breedSelected = $('.js-breed').val();
-    // change empty submission to 3
-    // if (breedSelected == "") {
-    //     breedSelected = 3;
-    // }
     endpoint = "https://dog.ceo/api/breed/" + breedSelected + "/images/random";
-    console.log(`current endpoint is ${endpoint}`);
 }
 
-// get dog images from endpoint
+// get dog image from endpoint
 function fetchDogs() {
     fetch(`${endpoint}`)
         .then(response => response.json())
@@ -37,12 +32,12 @@ function fetchDogs() {
             console.log(error);
             alert('Something went wrong, check console.');
         });
-
 }
 
-// append each dog image from the API response into the js-dogs div
+// append dog image from the API response into the js-dogs div
 function displayDog(responseJson) {
     console.log(responseJson);
+    // error message for user if API can not locate breed submitted
     if (responseJson.message == "Breed not found") {
         alert("Breed not found. Please check your spelling or try a different breed.");
         return;
