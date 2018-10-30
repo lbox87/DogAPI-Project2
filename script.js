@@ -19,7 +19,7 @@ function breedSubmitted() {
 
 // captures breed submitted.
 function submittedBreed() {
-    breedSelected = $('.js-breed').val();
+    breedSelected = $('.js-breed').val().toLowerCase();
     endpoint = "https://dog.ceo/api/breed/" + breedSelected + "/images/random";
 }
 
