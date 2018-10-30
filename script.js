@@ -6,13 +6,13 @@ let endpoint = "";
 function breedSubmitted() {
     $(`.js-submit`).click(event => {
         event.preventDefault();
-        // clearValues();
+        clearValues();
         submittedBreed();
         // prevent values other than 1-50
-        // if ((numberSelected > 50) || (numberSelected < 1)) {
-        //     alert("Please select a number 1 through 50.");
-        //     return;
-        // }
+        if (breedSelected == "") {
+            alert("Please select a breed.");
+            return;
+        }
         fetchDogs();
     });
 }
@@ -43,14 +43,20 @@ function fetchDogs() {
 // append each dog image from the API response into the js-dogs div
 function displayDog(responseJson) {
     console.log(responseJson);
-    $(`.js-dogs`).append(`<img src="${responseJson.message}" class="col-3 results-img">`);
+    if (responseJson.message == "Breed not found") {
+        alert("Breed not found. Please check your spelling or try a different breed.");
+        return;
+    }
+    else {
+        $(`.js-dogs`).append(`<img src="${responseJson.message}" class="col-6 results-img">`);
+    }
 }
 
-// // refresh values and clear div
-// function clearValues() {
-//     numberSelected = "";
-//     endpoint = "";
-//     $(`.js-dogs`).html("");
-// }
+    // refresh values and clear div
+    function clearValues() {
+        breedSelected = "";
+        endpoint = "";
+        $(`.js-dogs`).html("");
+    }
 
-$(breedSubmitted);
+    $(breedSubmitted);
